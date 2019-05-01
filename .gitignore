@@ -5,4 +5,5 @@ sonarr/
 radarr/
 jackett/
 nginx/
+mysql/
 

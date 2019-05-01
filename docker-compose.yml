@@ -75,6 +75,24 @@ services:
       - 139:139
       - 445:445
     restart: unless-stopped
+  mysql:
+    image: mysql/mysql-server:5.7
+    container_name: mysql
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_USER=nas
+      - MYSQL_PASSWORD=nas
+      - MYSQL_DATABASE=nas
+      # - MYSQL_HOST=0.0.0.0
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    restart: unless-stopped
   nginx:
     image: linuxserver/nginx
     container_name: nginx
