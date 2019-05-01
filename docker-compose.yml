@@ -59,6 +59,22 @@ services:
     ports:
       - 9117:9117
     restart: unless-stopped
+  samba:
+    image: dperson/samba
+    container_name: samba
+    command: >
+        -w "WORKGROUP"
+        -s "shared;/mount;yes;no;yes;all;none;;mount"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./transmission/downloads/complete:/mount/tm
+    ports:
+      - 139:139
+      - 445:445
+    restart: unless-stopped
   nginx:
     image: linuxserver/nginx
     container_name: nginx
