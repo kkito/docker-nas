@@ -6,4 +6,6 @@ radarr/
 jackett/
 nginx/
 mysql/
+gogs/
+emby/
 
