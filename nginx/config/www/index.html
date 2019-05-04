@@ -1,0 +1,34 @@
+    <html>
+        <head>
+            <title>Docker NAS Service List</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+	    <meta charset="UTF-8">
+            <style>
+            body{
+                font-family: Helvetica, Arial, sans-serif;
+            }
+	    .app-list {
+		    text-align: center;
+		    list-style: none;
+		    margin-top: 2rem;
+	    }
+	    .app-list li {
+		    padding: 0.5rem 0rem;
+		    margin: 0.3rem 0rem;		
+	    }
+            </style>
+	    <script>
+		function jumpToApp(key) {
+			var app_host = `http://${key}.${location.host}`
+			location.href = app_host
+		}
+	    </script>
+        </head>
+        <body>
+		<ul class="app-list">
+			<li onclick="jumpToApp('tm')">Transmission</li>
+			<li onclick="jumpToApp('emby')">Emby</li>
+			<li onclick="jumpToApp('aria2')">Aria2</li>
+		</ul>
+        </body>
+    </html>
