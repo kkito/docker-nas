@@ -13,10 +13,11 @@ services:
       - ./transmission/config:/config
       - ./transmission/downloads:/downloads
       - ./transmission/watch:/watch
-    ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
+    network_mode: "host"
+    #ports:
+    #  - 9091:9091
+    #  - 51413:51413
+    #  - 51413:51413/udp
     restart: unless-stopped
   sonarr:
     image: linuxserver/sonarr
@@ -64,6 +65,7 @@ services:
     container_name: samba
     command: >
         -n 
+        -S
         -w "WORKGROUP"
         -s "shared;/mount;yes;no;yes;all;none;;mount"
     environment:
@@ -71,12 +73,13 @@ services:
       - PGID=1000
       - TZ=Asia/Shanghai
     volumes:
-      - ./transmission/downloads/complete:/mount/tm
-    ports:
-      - 137:137/udp
-      - 138:138/udp
-      - 139:139
-      - 445:445
+      - ./transmission/downloads:/mount/tm
+    network_mode: "host"
+    #ports:
+    #  - 137:137/udp
+    #  - 138:138/udp
+    #  - 139:139
+    #  - 445:445
     restart: unless-stopped
   mysql:
     image: mysql/mysql-server:5.7
