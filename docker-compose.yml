@@ -129,6 +129,7 @@ services:
       - TZ=Asia/Shanghai
       - DRONE_AGENTS_ENABLED=true
       - DRONE_GOGS_SERVER=http://gogs.snail.n2n.kkito.cn
+      - DRONE_USER_CREATE=username:kkito,admin:true
       - DRONE_RPC_SECRET=123123
       - DRONE_SERVER_HOST=drone.snail.n2n.kkito.cn
       - DRONE_SERVER_PROTO=http
