@@ -20,6 +20,8 @@ services:
     #  - 51413:51413/udp
     restart: unless-stopped
   sonarr:
+    entrypoint: ["echo", "Service sonarr disabled"]
+    # restart: unless-stopped
     image: linuxserver/sonarr
     container_name: sonarr
     environment:
@@ -32,8 +34,9 @@ services:
       - ./sonarr/downloads:/downloads
     ports:
       - 8989:8989
-    restart: unless-stopped
   radarr:
+    entrypoint: ["echo", "Service radarr disabled"]
+    # restart: unless-stopped
     image: linuxserver/radarr
     container_name: radarr
     environment:
@@ -46,8 +49,9 @@ services:
       - ./radarr/downloads:/downloads
     ports:
       - 7878:7878
-    restart: unless-stopped
   jackett:
+    entrypoint: ["echo", "Service jackett disabled"]
+    # restart: unless-stopped
     image: linuxserver/jackett
     container_name: jackett
     environment:
@@ -59,7 +63,6 @@ services:
       - ./jackett/downloads:/downloads
     ports:
       - 9117:9117
-    restart: unless-stopped
   samba:
     image: dperson/samba
     container_name: samba
@@ -74,6 +77,8 @@ services:
       - TZ=Asia/Shanghai
     volumes:
       - ./transmission/downloads:/mount/tm
+      - /mnt/sdd/sda1:/mount/sdd
+      - /mnt/sde/ttg:/mount/sde
     network_mode: "host"
     #ports:
     #  - 137:137/udp
@@ -101,11 +106,10 @@ services:
       - 3306:3306
     restart: unless-stopped
   gogs:
+    # entrypoint: ["echo", "Service gogs disabled"]
     restart: unless-stopped
     image: gogs/gogs
     container_name: gogs
-    depends_on:
-      - mysql
     environment:
       - PUID=1000
       - PGID=1000
@@ -115,8 +119,44 @@ services:
     ports:
         - "7922:22"
         - "7980:3000"
-  emby:
+  drone:
     restart: unless-stopped
+    image: drone/drone:1
+    container_name: drone
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      - DRONE_AGENTS_ENABLED=true
+      - DRONE_GOGS_SERVER=http://gogs.snail.n2n.kkito.cn
+      - DRONE_RPC_SECRET=123123
+      - DRONE_SERVER_HOST=drone.snail.n2n.kkito.cn
+      - DRONE_SERVER_PROTO=http
+    volumes:
+      - ./drone/data:/data
+    ports:
+        - "7880:80"
+        - "7843:443"
+  drone-runner:
+    restart: unless-stopped
+    image: drone/drone-runner-docker:1
+    container_name: drone-runner
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      - DRONE_SERVER_PROTO=http
+      - DRONE_RPC_HOST=drone.snail.n2n.kkito.cn
+      - DRONE_RPC_SECRET=123123
+      - DRONE_RUNNER_CAPACITY=1
+      - DRONE_RUNNER_NAME=runner.snail.n2n.kkito.cn
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+        - "7780:3000"
+  emby:
+    entrypoint: ["echo", "Service emby disabled"]
+    # restart: unless-stopped
     image: emby/embyserver:latest
     container_name: emby
     environment:
